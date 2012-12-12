@@ -21,14 +21,13 @@ class Query
   _isValid: ->
     @value.length >= @minLength
 
-
 class Suggestion
-  constructor: (index, @term, @data, @type) ->
+  constructor: (index, @data, @type) ->
     @id = "#{index}-soulmate-suggestion"
     @index = index
 
   select: (callback) ->
-    callback( @term, @data, @type, @index, @id)
+    callback( @data, @type, @index, @id)
 
   focus: ->
     @element().addClass( 'focus' )
@@ -39,12 +38,12 @@ class Suggestion
   render: (callback) ->
     """
       <li id="#{@id}" class="soulmate-suggestion">
-        #{callback( @term, @data, @type, @index, @id)}
+        #{callback( @data, @type, @index, @id)}
       </li>
     """
 
   element: ->
-    $('#' + @id) # ## twice?
+    $('#' + @id)
 
 class SuggestionCollection
   constructor: (@renderCallback, @selectCallback) ->
@@ -57,7 +56,7 @@ class SuggestionCollection
 
     for type, typeResults of results
       for result in typeResults
-        @suggestions.push( new Suggestion(i, result.term, result.data, type) )
+        @suggestions.push( new Suggestion(i, result, type) )
         i += 1
 
   blurAll: ->
@@ -142,12 +141,20 @@ class Soulmate
 
     that = this
 
-    {url, types, renderCallback, selectCallback, maxResults, minQueryLength, timeout} = options
+    {url, engineKey, types, documentTypes, filters, facets, searchFields, functionalBoosts, sortField, sortDirection,
+      fetchFields, maxResults, resultLimit, renderCallback, selectCallback, minQueryLength, timeout} = options
 
-
-    @url              = url
-    @types            = types
-    @maxResults       = maxResults || 5
+    @url              = url || 'https://api.swiftype.com/api/v1/public/engines/suggest.json'
+    @engineKey        = engineKey
+    @types            = types || documentTypes # will not work, must be in url if only one type wished; maybe filter response handling client-side
+    @filters          = filters
+    @facets           = facets
+    @searchFields     = searchFields
+    @functionalBoosts = functionalBoosts
+    @sortField        = sortField
+    @sortDirection    = sortDirection
+    @fetchFields      = fetchFields
+    @maxResults       = maxResults || resultLimit
     @timeout          = timeout || 1000
 
     @xhr              = null
@@ -245,12 +252,19 @@ class Soulmate
       timeout: @timeout
       cache: true
       data: {
-        term: @query.getValue()
-        types: @types
-        limit: @maxResults
+        q: @query.getValue()
+        engine_key: @engineKey
+        filters: @filters
+        facets: @facets
+        search_fields: @searchFields
+        functional_boosts: @functionalBoosts
+        fetch_fields: @fetchFields
+        sort_field: @sortField
+        sort_direction: @sortDirection
+        per_page: @maxResults
       }
       success: (data) =>
-        @update( data.results )
+        @update( data.records )
     })
 
   update: (results) ->
