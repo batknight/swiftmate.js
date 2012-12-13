@@ -203,26 +203,29 @@
     };
 
     function Soulmate(input, options) {
-      var documentTypes, engineKey, facets, fetchFields, filters, functionalBoosts, maxResults, minQueryLength, renderCallback, resultLimit, searchFields, selectCallback, sortDirection, sortField, that, timeout, types, url;
+      var documentTypes, engineKey, facets, fetchFields, filters, functionalBoosts, maxResults, minQueryLength, renderCallback, searchFields, selectCallback, sortDirection, sortField, that, timeout, url;
       this.input = input;
       this.handleKeyup = __bind(this.handleKeyup, this);
 
       this.handleKeydown = __bind(this.handleKeydown, this);
 
       that = this;
-      url = options.url, engineKey = options.engineKey, types = options.types, documentTypes = options.documentTypes, filters = options.filters, facets = options.facets, searchFields = options.searchFields, functionalBoosts = options.functionalBoosts, sortField = options.sortField, sortDirection = options.sortDirection, fetchFields = options.fetchFields, maxResults = options.maxResults, resultLimit = options.resultLimit, renderCallback = options.renderCallback, selectCallback = options.selectCallback, minQueryLength = options.minQueryLength, timeout = options.timeout;
+      url = options.url, engineKey = options.engineKey, documentTypes = options.documentTypes, filters = options.filters, searchFields = options.searchFields, functionalBoosts = options.functionalBoosts, sortField = options.sortField, sortDirection = options.sortDirection, fetchFields = options.fetchFields, facets = options.facets, maxResults = options.maxResults, renderCallback = options.renderCallback, selectCallback = options.selectCallback, minQueryLength = options.minQueryLength, timeout = options.timeout;
       this.url = url || 'https://api.swiftype.com/api/v1/public/engines/suggest.json';
       this.engineKey = engineKey;
-      this.types = types || documentTypes;
+      this.types = documentTypes;
       this.filters = filters;
-      this.facets = facets;
       this.searchFields = searchFields;
       this.functionalBoosts = functionalBoosts;
       this.sortField = sortField;
       this.sortDirection = sortDirection;
       this.fetchFields = fetchFields;
-      this.maxResults = maxResults || resultLimit;
+      this.facets = facets;
+      this.maxResults = maxResults || 5;
       this.timeout = timeout || 1000;
+      selectCallback = selectCallback || function(data) {
+        return window.location = data.url;
+      };
       this.xhr = null;
       this.suggestions = new SuggestionCollection(renderCallback, selectCallback);
       this.query = new Query(minQueryLength);
@@ -319,12 +322,12 @@
           q: this.query.getValue(),
           engine_key: this.engineKey,
           filters: this.filters,
-          facets: this.facets,
           search_fields: this.searchFields,
           functional_boosts: this.functionalBoosts,
           fetch_fields: this.fetchFields,
           sort_field: this.sortField,
           sort_direction: this.sortDirection,
+          facets: this.facets,
           per_page: this.maxResults
         },
         success: function(data) {

@@ -133,6 +133,7 @@ class SuggestionCollection
   _renderSuggestion: (suggestion) ->
     suggestion.render( @renderCallback )
 
+
 class Soulmate
 
   KEYCODES = {9: 'tab', 13: 'enter', 27: 'escape', 38: 'up', 40: 'down'}
@@ -141,21 +142,24 @@ class Soulmate
 
     that = this
 
-    {url, engineKey, types, documentTypes, filters, facets, searchFields, functionalBoosts, sortField, sortDirection,
-      fetchFields, maxResults, resultLimit, renderCallback, selectCallback, minQueryLength, timeout} = options
+    {url, engineKey, documentTypes, filters, searchFields, functionalBoosts, sortField, sortDirection,
+      fetchFields, facets, maxResults, renderCallback, selectCallback, minQueryLength, timeout} = options
 
     @url              = url || 'https://api.swiftype.com/api/v1/public/engines/suggest.json'
     @engineKey        = engineKey
-    @types            = types || documentTypes # will not work, must be in url if only one type wished; maybe filter response handling client-side
+    @types            = documentTypes
     @filters          = filters
-    @facets           = facets
     @searchFields     = searchFields
     @functionalBoosts = functionalBoosts
     @sortField        = sortField
     @sortDirection    = sortDirection
     @fetchFields      = fetchFields
-    @maxResults       = maxResults || resultLimit
+    @facets           = facets
+    @maxResults       = maxResults || 5
     @timeout          = timeout || 1000
+
+    # Follow url on select by default
+    selectCallback    = selectCallback || (data) -> window.location = data.url
 
     @xhr              = null
 
@@ -255,12 +259,12 @@ class Soulmate
         q: @query.getValue()
         engine_key: @engineKey
         filters: @filters
-        facets: @facets
         search_fields: @searchFields
         functional_boosts: @functionalBoosts
         fetch_fields: @fetchFields
         sort_field: @sortField
         sort_direction: @sortDirection
+        facets: @facets
         per_page: @maxResults
       }
       success: (data) =>

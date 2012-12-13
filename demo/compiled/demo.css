@@ -8,8 +8,26 @@ body {
 
 #logo-link {
   display: block;
-  margin: 140px 0 30px;
+  margin: 119px 0 0;
   text-align: center; }
+
+#logo-subtitle, #footer {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #444;
+  text-align: center; }
+  #logo-subtitle a, #footer a {
+    color: #000;
+    text-decoration: none; }
+    #logo-subtitle a:hover, #footer a:hover {
+      text-decoration: underline; }
+
+#logo-subtitle {
+  margin: 0 0 24px;
+  font-size: 18px; }
+
+#footer {
+  margin-top: 40px;
+  font-size: 13px; }
 
 #search-input {
   border: 1px solid #999;
@@ -113,15 +131,3 @@ body {
       display: table; }
     #soulmate .soulmate-type:after {
       clear: both; }
-
-#footer {
-  margin-top: 40px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
-  color: #444;
-  text-align: center; }
-  #footer a {
-    color: #000;
-    text-decoration: none; }
-    #footer a:hover {
-      text-decoration: underline; }

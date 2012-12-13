@@ -47,21 +47,45 @@ html {
   background: url(../gray_linen_background.jpg);
 }
 
-body{
+body {
   width: $inputWidth;
   margin: 0 auto;
 }
 
 #logo-link {
   display: block;
-  margin: 140px 0 30px;
+  margin: 119px 0 0;
   text-align: center;
 }
 
 #logo {
 }
 
-#search-input{ 
+#logo-subtitle, #footer {
+  font-family: $helvetica;
+  color: #444;
+  text-align: center;
+
+  a {
+    color: #000;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+#logo-subtitle {
+  margin: 0 0 24px;
+  font-size: 18px;
+}
+
+#footer {
+  margin-top: 40px;
+  font-size: 13px;
+}
+
+#search-input{
   border: 1px solid #999;
   color: #545C5F;
   font-family: $helvetica;
@@ -71,9 +95,9 @@ body{
   padding: 12px 12px 10px;
   width: $inputWidth;
   @include border-radius(4px);
-  
-  &:focus{ 
-//    outline: none; 
+
+  &:focus{
+//    outline: none;
   }
 }
 
@@ -93,14 +117,14 @@ body{
   z-index: 1000;
   @include border-radius(4px);
   @include box-shadow(0, 4px, 10px, rgba(0,0,0,.2));
-    
+
   .soulmate-type-container {
     border-top: 1px solid #ddd;
     &:first-child {
       border-top: none;
     }
   }
-  
+
   .soulmate-type-suggestions {
     border-left: 1px solid #ddd;
     float: right;
@@ -109,7 +133,7 @@ body{
     width: $suggestionWidth;
     letter-spacing: 0.5px;
   }
-  
+
   .soulmate-suggestion {
     color: #111;
     cursor: pointer;
@@ -130,7 +154,7 @@ body{
       @include vertical-gradient(#545454, #444444);
     }
   }
-  
+
   .soulmate-type {
     background-color: white;
     color: #333;
@@ -145,20 +169,5 @@ body{
     @include border-radius(5px);
     @include clearfix();
   }
-  
-}
 
-#footer {
-  margin-top: 40px;
-  font-family: $helvetica;
-  font-size: 13px;
-  color: #444;
-  text-align: center;
-  a {
-    color: #000;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
 }
