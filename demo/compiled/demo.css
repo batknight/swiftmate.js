@@ -1,6 +1,6 @@
 html {
   background-color: #9fbb9d;
-  background: url(../gray_linen_background.jpg); }
+  background: url(background.png); }
 
 body {
   width: 600px;
@@ -8,26 +8,20 @@ body {
 
 #logo-link {
   display: block;
-  margin: 119px 0 0;
+  margin: 148px 0 36px;
   text-align: center; }
-
-#logo-subtitle, #footer {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #444;
-  text-align: center; }
-  #logo-subtitle a, #footer a {
-    color: #000;
-    text-decoration: none; }
-    #logo-subtitle a:hover, #footer a:hover {
-      text-decoration: underline; }
-
-#logo-subtitle {
-  margin: 0 0 24px;
-  font-size: 18px; }
 
 #footer {
   margin-top: 40px;
-  font-size: 13px; }
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  color: #444;
+  text-align: center; }
+  #footer a {
+    color: #000;
+    text-decoration: none; }
+    #footer a:hover {
+      text-decoration: underline; }
 
 #search-input {
   border: 1px solid #999;
@@ -45,7 +39,7 @@ body {
   -khtml-border-radius: 4px;
   border-radius: 4px; }
 
-#soulmate {
+#swiftmate {
   background-color: #fafafa;
   border: 1px solid #bbb;
   display: none;
@@ -71,25 +65,25 @@ body {
   -ms-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   -o-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
-  #soulmate .soulmate-type-container {
+  #swiftmate .swiftmate-type-container {
     border-top: 1px solid #ddd; }
-    #soulmate .soulmate-type-container:first-child {
+    #swiftmate .swiftmate-type-container:first-child {
       border-top: none; }
-  #soulmate .soulmate-type-suggestions {
+  #swiftmate .swiftmate-type-suggestions {
     border-left: 1px solid #ddd;
     float: right;
     list-style: none;
     padding: 5px 0;
     width: 490px;
     letter-spacing: 0.5px; }
-  #soulmate .soulmate-suggestion {
+  #swiftmate .swiftmate-suggestion {
     color: #111;
     cursor: pointer;
     font-weight: 500;
     font-size: 13px;
     padding: 5px 0 6px 12px;
     text-decoration: none; }
-    #soulmate .soulmate-suggestion.focus {
+    #swiftmate .swiftmate-suggestion.focus {
       color: white;
       margin-left: -1px;
       margin-right: -1px;
@@ -108,7 +102,7 @@ body {
       background: -webkit-gradient(linear, 0 0, 0 100%, from(#545454), to(#444444));
       -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#545454,endColorstr=#444444)";
       filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#545454,endColorstr=#444444); }
-  #soulmate .soulmate-type {
+  #swiftmate .swiftmate-type {
     background-color: white;
     color: #333;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -126,8 +120,8 @@ body {
     -khtml-border-radius: 5px;
     border-radius: 5px;
     zoom: 1; }
-    #soulmate .soulmate-type:before, #soulmate .soulmate-type:after {
+    #swiftmate .swiftmate-type:before, #swiftmate .swiftmate-type:after {
       content: "";
       display: table; }
-    #soulmate .soulmate-type:after {
+    #swiftmate .swiftmate-type:after {
       clear: both; }

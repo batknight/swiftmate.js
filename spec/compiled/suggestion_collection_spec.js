@@ -63,22 +63,22 @@
         return rendered = collection.render();
       });
       it('renders all of the suggestions', function() {
-        return expect($('.soulmate-suggestion', $(rendered)).length).toEqual(6);
+        return expect($('.swiftmate-suggestion', $(rendered)).length).toEqual(6);
       });
       it('renders the suggestions for each type inside a ul', function() {
         var typeLists;
-        typeLists = $('ul.soulmate-type-suggestions', $(rendered));
+        typeLists = $('ul.swiftmate-type-suggestions', $(rendered));
         expect(typeLists.length).toEqual(2);
         return typeLists.each(function() {
-          return expect($('.soulmate-suggestion', $(this)).length).toEqual(3);
+          return expect($('.swiftmate-suggestion', $(this)).length).toEqual(3);
         });
       });
       it('renders a list item container for each type', function() {
-        return expect($(rendered).filter('li.soulmate-type-container').length).toEqual(2);
+        return expect($(rendered).filter('li.swiftmate-type-container').length).toEqual(2);
       });
-      return it('renders each type as a div with a class of "soulmate-type"', function() {
+      return it('renders each type as a div with a class of "swiftmate-type"', function() {
         var types;
-        types = $('div.soulmate-type', $(rendered));
+        types = $('div.swiftmate-type', $(rendered));
         expect(types.length).toEqual(2);
         return types.each(function() {
           return expect($(this).text()).toMatch(/event|venue/);
@@ -213,7 +213,7 @@
         return describe('#focusElement', function() {
           return it('focuses the suggestion whos element matches the one provided', function() {
             var element;
-            element = $('<div id="73-soulmate-suggestion">');
+            element = $('<div id="73-swiftmate-suggestion">');
             return expect(function() {
               return collection.focusElement(element);
             }).toCallWith(collection, 'focus', [73]);

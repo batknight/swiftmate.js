@@ -23,7 +23,7 @@ class Query
 
 class Suggestion
   constructor: (index, @data, @type) ->
-    @id = "#{index}-soulmate-suggestion"
+    @id = "#{index}-swiftmate-suggestion"
     @index = index
 
   select: (callback) ->
@@ -37,7 +37,7 @@ class Suggestion
 
   render: (callback) ->
     """
-      <li id="#{@id}" class="soulmate-suggestion">
+      <li id="#{@id}" class="swiftmate-suggestion">
         #{callback( @data, @type, @index, @id)}
       </li>
     """
@@ -119,14 +119,14 @@ class SuggestionCollection
 
   _renderTypeStart: ->
     """
-      <li class="soulmate-type-container">
-        <ul class="soulmate-type-suggestions">
+      <li class="swiftmate-type-container">
+        <ul class="swiftmate-type-suggestions">
     """
 
   _renderTypeEnd: (type) ->
     """
         </ul>
-        <div class="soulmate-type">#{type}</div>
+        <div class="swiftmate-type">#{type}</div>
       </li>
     """
 
@@ -134,7 +134,7 @@ class SuggestionCollection
     suggestion.render( @renderCallback )
 
 
-class Soulmate
+class Swiftmate
 
   KEYCODES = {9: 'tab', 13: 'enter', 27: 'escape', 38: 'up', 40: 'down'}
 
@@ -158,19 +158,20 @@ class Soulmate
     @maxResults       = maxResults || 5
     @timeout          = timeout || 1000
 
-    # Follow url on select by default
-    selectCallback    = selectCallback || (data) -> window.location = data.url
-
     @xhr              = null
+
+    # Follow url by default
+    selectCallback    = selectCallback || @_defaultSelectCallback
+    minQueryLength    = minQueryLength || 2
 
     @suggestions      = new SuggestionCollection( renderCallback, selectCallback )
     @query            = new Query( minQueryLength )
 
-    if ($('ul#soulmate').length > 0)
-      @container = $('ul#soulmate')
+    if ($('ul#swiftmate').length > 0)
+      @container = $('ul#swiftmate')
     else
-      @container = $('<ul id="soulmate">').insertAfter(@input)
-    @container.delegate('.soulmate-suggestion',
+      @container = $('<ul id="swiftmate">').insertAfter(@input)
+    @container.delegate('.swiftmate-suggestion',
       mouseover: -> that.suggestions.focusElement( this )
       click: (event) ->
         event.preventDefault()
@@ -236,13 +237,13 @@ class Soulmate
     @container.hide()
 
     # Stop capturing any document click events.
-    $(document).unbind('click.soulmate')
+    $(document).unbind('click.swiftmate')
 
   showContainer: ->
     @container.show()
 
     # Hide the container if the user clicks outside of it.
-    $(document).bind('click.soulmate', (event) =>
+    $(document).bind('click.swiftmate', (event) =>
       @hideContainer() unless @container.has( $(event.target) ).length
     )
 
@@ -281,13 +282,18 @@ class Soulmate
     else
       @hideContainer()
 
-$.fn.soulmate = (options) ->
-  new Soulmate($(this), options)
+  # PRIVATE
+
+  _defaultSelectCallback: (data) ->
+    window.location = data.url
+
+$.fn.swiftmate = (options) ->
+  new Swiftmate($(this), options)
   return $(this)
 
 # window._test = {
 #   Query: Query
 #   Suggestion: Suggestion
 #   SuggestionCollection: SuggestionCollection
-#   Soulmate: Soulmate
+#   Swiftmate: Swiftmate
 # }

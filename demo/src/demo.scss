@@ -40,11 +40,11 @@ $lucida: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu 
 
 $suggestionWidth: 490px;
 $inputWidth: 600px;
-$soulmateWidth: $inputWidth - 21px;
+$swiftmateWidth: $inputWidth - 21px;
 
 html {
   background-color: #9fbb9d;
-  background: url(../gray_linen_background.jpg);
+  background: url(background.png);
 }
 
 body {
@@ -54,15 +54,17 @@ body {
 
 #logo-link {
   display: block;
-  margin: 119px 0 0;
+  margin: 148px 0 36px;
   text-align: center;
 }
 
 #logo {
 }
 
-#logo-subtitle, #footer {
+#footer {
+  margin-top: 40px;
   font-family: $helvetica;
+  font-size: 13px;
   color: #444;
   text-align: center;
 
@@ -73,16 +75,6 @@ body {
       text-decoration: underline;
     }
   }
-}
-
-#logo-subtitle {
-  margin: 0 0 24px;
-  font-size: 18px;
-}
-
-#footer {
-  margin-top: 40px;
-  font-size: 13px;
 }
 
 #search-input{
@@ -97,11 +89,12 @@ body {
   @include border-radius(4px);
 
   &:focus{
-//    outline: none;
+    // outline: none;
   }
 }
 
-#soulmate {
+// SWIFTMATE AUTOCOMPLETE
+#swiftmate {
   background-color: #fafafa;
   border: 1px solid #bbb;
   display: none;
@@ -113,19 +106,19 @@ body {
   position: absolute;
   text-shadow: 0 0 0 white;
   top: 306px;
-  width: $soulmateWidth;
+  width: $swiftmateWidth;
   z-index: 1000;
   @include border-radius(4px);
   @include box-shadow(0, 4px, 10px, rgba(0,0,0,.2));
 
-  .soulmate-type-container {
+  .swiftmate-type-container {
     border-top: 1px solid #ddd;
     &:first-child {
       border-top: none;
     }
   }
 
-  .soulmate-type-suggestions {
+  .swiftmate-type-suggestions {
     border-left: 1px solid #ddd;
     float: right;
     list-style: none;
@@ -134,7 +127,7 @@ body {
     letter-spacing: 0.5px;
   }
 
-  .soulmate-suggestion {
+  .swiftmate-suggestion {
     color: #111;
     cursor: pointer;
     font-weight: 500;
@@ -155,7 +148,7 @@ body {
     }
   }
 
-  .soulmate-type {
+  .swiftmate-type {
     background-color: white;
     color: #333;
     font-family: $helvetica;

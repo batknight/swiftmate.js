@@ -12,7 +12,7 @@
     });
     describe('#initialize', function() {
       it('creates a unique id for the suggestion dom element', function() {
-        return expect(suggestion.id).toEqual('1-soulmate-suggestion');
+        return expect(suggestion.id).toEqual('1-swiftmate-suggestion');
       });
       return it('sets the term, data, and type', function() {
         expect(suggestion.term).toEqual('mitch crowe');
@@ -24,20 +24,20 @@
       return it('calls the provided callback with the term, data, type, index, and dom id', function() {
         callback = jasmine.createSpy();
         suggestion.select(callback);
-        return expect(callback).toHaveBeenCalledWith('mitch crowe', {}, 'people', 1, '1-soulmate-suggestion');
+        return expect(callback).toHaveBeenCalledWith('mitch crowe', {}, 'people', 1, '1-swiftmate-suggestion');
       });
     });
     describe('#render', function() {
       it('calls the provided callback with the term, data, type, index, and dom id', function() {
         callback = jasmine.createSpy();
         suggestion.render(callback);
-        return expect(callback).toHaveBeenCalledWith('mitch crowe', {}, 'people', 1, '1-soulmate-suggestion');
+        return expect(callback).toHaveBeenCalledWith('mitch crowe', {}, 'people', 1, '1-swiftmate-suggestion');
       });
       it('returns an li tag as a string', function() {
         return expect(suggestion.render(callback)).toMatch(/<li/);
       });
-      it('sets the class to "soulmate-suggestion"', function() {
-        return expect($(suggestion.render(callback))).toHaveClass('soulmate-suggestion');
+      it('sets the class to "swiftmate-suggestion"', function() {
+        return expect($(suggestion.render(callback))).toHaveClass('swiftmate-suggestion');
       });
       it('sets the id to the suggestions id', function() {
         return expect($(suggestion.render(callback))).toHaveId(suggestion.id);

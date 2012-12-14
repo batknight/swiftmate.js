@@ -1,58 +1,203 @@
-# soulmate.js
+# swiftmate.js
 
-Soulmate.js is a jQuery plugin front-end for [soulmate](https://github.com/seatgeek/soulmate), an excellent auto-suggestion gem built for speed on sinatra and redis. Together, they provide lightning-fast plug-n-play auto-suggestion. See [soulmate on github](https://github.com/seatgeek/soulmate) for more details on the back-end interface.
+Swiftmate.js is a jQuery plugin for retrieving autocompletion suggestions from a hosted [Swiftype](http://swiftype.com) search engine. Swiftmate provides well structured markup you can freely style to fit your website's design.
 
-_**Note:** This plugin is not affiliated with the soulmate gem or its authors. The name is merely a knock-off._
+Swiftmate.js based on [soulmate.js](https://github.com/mcrowe/soulmate.js), a jQuery front-end interface for the
+[soulmate](https://github.com/seatgeek/soulmate) autocompletion backend by seetgeak.
 
 ## Demo
 
-Soulmate.js is inspired by the excellent autocompletion interface used on [seatgeek.com](http://seatgeek.com). It works and feels very similar, although the implementation is entirely original.
+Get wowed by this demo of [**swiftmate.js in action**](http://thomasklemm.github.com/swiftmate.js).
 
-The `demo` directory in the source provides an example usage and styling of the plugin. It does not supply a back-end, however, so you will have to set up [soulmate](https://github.com/seatgeek/soulmate) and point the demo to it.
+![Swiftmate](https://f.cloud.github.com/assets/1100176/13166/3c9deb5a-45e8-11e2-8513-44b6444906d5.png)
 
 ## Features
 
-* **Well tested:** Ridiculous spec coverage using Jasmine.
 * **Clean markup:** Renders a clean and semantic markup structure that is easy to style.
-* **Speed:** Minimizes requests by maintaining a list of queries with no suggestions. No additional requests are made when a user keeps typing on an empty query.
-* **Cross-domain compatible:** Uses jsonp to accommodate backends on separate domain (which is a good practice since it allows the auto-suggest system to get overwhelmed without affecting the main site).
 * **Customizable behaviour:** Customized rendering of suggestions through a callback that provides all stored data for that suggestion. Customized suggestion selection behaviour through a callback.
 * **Adaptable:** A modular, object-oriented design, that is meant to be very easy to adapt and modify.
 
-## Usage
+## Basic usage
 
-First, setup an instance of [soulmate](https://github.com/seatgeek/soulmate). Then, grab `src/compiled/jquery.soulmate.js` and place it in your project. Finally, do something like the following (or follow the example in the `demo` directory):
+```coffee
+# Callback rendering each item of each documentType
+render = (data, type) ->
+  book = data
+  "#{ book.title } by #{ book.author }"
 
-`index.html`
+$('#search-input').swiftmate {
+  engineKey:       '5eMMdfkKCgz5wxyhR9RL' # Swiftype Docs Crawler Engine
+  renderCallback:  render
+  maxResults:      5
+}
+```
 
-    ...
-    <script type="text/javascript" src="jquery.soulmate.js">
-    <script type="text/javascript" src="main.js">
-    ...
-    <input id="search-input" type="text" name="q" value="" autocomplete="off"/>
+## Advanced usage
 
-`main.js`
+Swiftmate supports all search options outlined to be supported by the autocompletion API in the Swiftype [autocompletion](http://swiftype.com/documentation/autocomplete) and [search](http://swiftype.com/documentation/searching) docs.
 
-    ...
-    // Define the rendering and selecting behaviour for suggestions.
-    render = function(term, data, type){ return term; }
-    select = function(term, data, type){ console.log("Selected " + term); }
+```coffee
+# Render Callback
+render = (data, type) ->
+  # inspect the input
+  console.log([data, type])
+  # build output text or html string
+  # e.g. "<b>Harry Potter and the Philospher's Stone</b> by J.K. Rowling"
+  "<b>#{ data.title }</b> by #{ data.author }"
 
-    // Make the input field autosuggest-y.
-    $('#search-input').soulmate({
-      url:            'http://soulmate.YOUR-DOMAIN.com',
-      types:          ['type1', 'type2', 'type3', 'type4'],
-      renderCallback: render,
-      selectCallback: select,
-      minQueryLength: 2,
-      maxResults:     5
-    });
-    ...
+# Select Callback
+select = (data, type) ->
+  console.log("Selected #{data.title}; Url: #{data.url}")
+  # Point browser to new page
+  window.location = data.url
 
-For more information, see the specifications in the `spec/` directory.
+$('#search-input').swiftmate {
+  ##
+  # BASIC OPTIONS
 
-## Running Specs
+  # engineKey
+  #  => identifies your Swiftype engine
+  #     not equivalent to your API key, keep the API key secret!
+  engineKey:      '123abc123abc123abc'
 
-Soulmate.js is covered by Jasmine and Jasmine-JQuery specs. See the `spec/` directory to browse the specifications.
+  # documentTypes
+  #  => an array of DocumentTypes to retrieve
+  #     default: null => retrieves all DocumentTypes
+  documentTypes:  ['books', 'magazines']
 
-To run the specs, simply open `spec/spec_runner.html` in your browser.
+  # searchFields
+  #  => a hash containing arrays of the fields you want to match your query against for each object of each DocumentType
+  #     default: null => will autocomplete against all string fields (check!)
+  #       You can add a field weight using 'title^3' notation
+  searchFields: {
+    'books': ['title^3', 'author']
+  }
+
+  # sortField and sortDirection
+  #  => default: null => sort by matching score
+  sortField: {'books': 'price'}
+  sortDirection: {'books': 'asc'}
+
+  # fetchFields
+  #  => a hash containing arrays of the fields you want to have returned for each object of each DocumentType
+  #     default: null => fetches all fields
+  fetchFields: {
+    'books': ['author','title','price']
+  }
+
+  # maxResults
+  #  => number of results per DocumentType (check!); corresponds with Swiftype's 'per_page' option
+  #     default: 5
+  maxResults: 10
+
+  # renderCallback
+  #   function with arguments (data, type)
+  #   that return the text or html of the rendered suggestion
+  # Examples:
+  #   render = (data, type) ->
+  #     data.title
+  #
+  #   render = (data, type) ->
+  #     "<b>#{ data.title }</b>"
+  #
+  #   render = (data, type) ->
+  #     console.log(data)
+  #     "<b>" + data.title + "</b>"
+  #
+  #   # You can render different types differently
+  #   render = (data, type) ->
+  #     switch type
+  #       when 'magazine' then
+  #         magazine = data
+  #         magazine.title
+  #       when 'book' then
+  #         book = data
+  #         "#{ data.title } <em>by #{ data.author }</em>"
+  #       else
+  #         console.log(data)
+  #         data.title
+  #
+  renderCallback: render
+
+  # selectCallback
+  #   function with arguments (data, type)
+  #   defaults to following the data.url link if present
+  # Examples:
+  #   select = (data, type) ->
+  #     console.log("Selected #{ data.title }")
+  #     alert("Selected #{ data.title }")
+  #
+  #   # This is the default selectCallback
+  #   select = (data, type) ->
+  #     window.location = data.url
+  #
+  selectCallback: select
+
+  # minQueryLength
+  #   minimal length of the query to trigger an ajax request
+  minQueryLength: 2
+
+  ##
+  # ADVANCED OPTIONS
+
+  # filters
+  # Filters allow you to restrict the result set of a query by applying conditions to fields on the matching
+  #  => a hash specifying additional conditions that should be applied to your query for each DocumentType
+  #     default: null => no filters applied
+  filters: {
+    'books': {'in_stock': true, 'genre': 'fiction' }
+  }
+
+  # functionalBoosts
+  #  => Functional boosts allow you to boost result scores based on some numerically valued field.
+  #     Functional boosts may be applied to integer and float fields. See the Swiftype Docs for more info.
+  #     default: null
+  functionalBoosts: {
+    'books': {'total_purchases': 'logarithmic'}
+  }
+
+  # facets
+  #  => You can use faceting to give you a count of results for each value of a particular field.
+  #     default: null => no facets, no counts
+  facets: {
+    'books': ['genre']
+  }
+
+  # timeout
+  #  => timeout for the ajax request to the Swiftype API in milliseconds
+  #     default: 1000 => default is 1000 milliseconds == one second
+  timeout: 1500
+}
+
+```
+
+## Styling
+
+The generated semantic structure will look like this. See the `demo/demo.scss` for an example.
+
+```scss
+#swiftmate {
+  .swiftmate-type-container {
+    &:first-child {}
+  }
+
+  .swiftmate-type-suggestions {
+  }
+
+  .swiftmate-suggestion {
+    &.focus{}
+  }
+
+  .swiftmate-type {
+  }
+}
+```
+
+## Contributing
+
+Feel free to fork this repo and edit the source files. You can have the source and demo files automatically be recompiled on file changes in development by running `thor swiftmate:watch`. For more tasks run `thor list`.
+
+Open an issue for any questions of contact me at github@tklemm.eu or [@thomasjklemm](https://twitter.com/thomasjklemm) on Twitter.
+
+Best,
+Thomas
