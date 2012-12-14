@@ -192,6 +192,9 @@ The generated semantic structure will look like this. See the `demo/demo.scss` f
   }
 }
 ```
+## Credits
+
+Many thanks to [**Mitch Crowe**](http://mitchcrowe.com/) for creating and open-sourcing [soulmate.js](https://github.com/mcrowe/soulmate.js), on which Swiftype.js is based. Mitch also created the demo page and it's styles, being in turn inspired by [seatgeek](http://seatgeek.com/) and [premiumpixels](http://www.premiumpixels.com/).
 
 ## Contributing
 
