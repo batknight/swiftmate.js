@@ -9,7 +9,7 @@ Swiftmate.js based on [soulmate.js](https://github.com/mcrowe/soulmate.js), a jQ
 
 Get wowed by this demo of [**swiftmate.js in action**](http://thomasklemm.github.com/swiftmate.js).
 
-![Swiftmate](https://f.cloud.github.com/assets/1100176/13166/3c9deb5a-45e8-11e2-8513-44b6444906d5.png)
+![Swiftmate](https://f.cloud.github.com/assets/1100176/13183/560ee146-45ea-11e2-9f3a-0075d0065875.png)
 
 ## Features
 
